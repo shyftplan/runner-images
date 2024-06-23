@@ -143,14 +143,9 @@ variable "vm_size" {
   default = "Standard_D4s_v4"
 }
 
-variable "github_org" {
-  type    = string
-  default = "${split("/", env("GITHUB_REPOSITORY"))[0]}"
-}
-
 variable "github_repo" {
   type    = string
-  default = "${split("/", env("GITHUB_REPOSITORY"))[1]}"
+  default = "${env("GITHUB_REPOSITORY")}"
 }
 
 
@@ -164,7 +159,7 @@ build {
   sources = ["source.docker.ubuntu"]
 
   post-processor "docker-tag" {
-    repository = "ghcr.io/${var.github_org}/${var.github_repo}"
+    repository = "ghcr.io/${var.github_repo}"
     tags       = ["ubuntu-22.04-latest", "ubuntu-22.04-nightly-${formatdate("YYYYMMDD", timestamp())}"]
   }
 
@@ -172,7 +167,7 @@ build {
     execute_command = "sh -c '{{ .Vars }} {{ .Path }}'"
     inline          = ["apt update", "apt install -y sudo lsb-release wget apt-utils"]
   }
-  
+
   provisioner "shell" {
     inline = [
       "echo 'Build completed successfully'",
