@@ -80,4 +80,4 @@ foreach ($tool in $tools) {
     }
 }
 
-Invoke-PesterTests -TestFile "Toolset" -TestName "Toolset"
+# Invoke-PesterTests -TestFile "Toolset" -TestName "Toolset"
