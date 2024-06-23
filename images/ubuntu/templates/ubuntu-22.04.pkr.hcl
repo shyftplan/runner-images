@@ -363,40 +363,40 @@ build {
   //   inline            = ["echo 'Reboot VM'", "sudo reboot"]
   // }
 
-  provisioner "shell" {
-    execute_command     = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-    pause_before        = "1m0s"
-    scripts             = ["${path.root}/../scripts/build/cleanup.sh"]
-    start_retry_timeout = "10m"
-  }
+  # provisioner "shell" {
+  #   execute_command     = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
+  #   pause_before        = "1m0s"
+  #   scripts             = ["${path.root}/../scripts/build/cleanup.sh"]
+  #   start_retry_timeout = "10m"
+  # }
 
-  provisioner "shell" {
-    environment_vars = ["IMAGE_VERSION=${var.image_version}", "INSTALLER_SCRIPT_FOLDER=${var.installer_script_folder}"]
-    inline           = ["pwsh -File ${var.image_folder}/SoftwareReport/Generate-SoftwareReport.ps1 -OutputDirectory ${var.image_folder}", "pwsh -File ${var.image_folder}/tests/RunAll-Tests.ps1 -OutputDirectory ${var.image_folder}"]
-  }
+  # provisioner "shell" {
+  #   environment_vars = ["IMAGE_VERSION=${var.image_version}", "INSTALLER_SCRIPT_FOLDER=${var.installer_script_folder}"]
+  #   inline           = ["pwsh -File ${var.image_folder}/SoftwareReport/Generate-SoftwareReport.ps1 -OutputDirectory ${var.image_folder}", "pwsh -File ${var.image_folder}/tests/RunAll-Tests.ps1 -OutputDirectory ${var.image_folder}"]
+  # }
 
-  provisioner "file" {
-    destination = "${path.root}/../Ubuntu2204-Readme.md"
-    direction   = "download"
-    source      = "${var.image_folder}/software-report.md"
-  }
+  # provisioner "file" {
+  #   destination = "${path.root}/../Ubuntu2204-Readme.md"
+  #   direction   = "download"
+  #   source      = "${var.image_folder}/software-report.md"
+  # }
 
-  provisioner "file" {
-    destination = "${path.root}/../software-report.json"
-    direction   = "download"
-    source      = "${var.image_folder}/software-report.json"
-  }
+  # provisioner "file" {
+  #   destination = "${path.root}/../software-report.json"
+  #   direction   = "download"
+  #   source      = "${var.image_folder}/software-report.json"
+  # }
 
-  provisioner "shell" {
-    environment_vars = ["HELPER_SCRIPT_FOLDER=${var.helper_script_folder}", "INSTALLER_SCRIPT_FOLDER=${var.installer_script_folder}", "IMAGE_FOLDER=${var.image_folder}"]
-    execute_command  = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-    scripts          = ["${path.root}/../scripts/build/configure-system.sh"]
-  }
+  # provisioner "shell" {
+  #   environment_vars = ["HELPER_SCRIPT_FOLDER=${var.helper_script_folder}", "INSTALLER_SCRIPT_FOLDER=${var.installer_script_folder}", "IMAGE_FOLDER=${var.image_folder}"]
+  #   execute_command  = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
+  #   scripts          = ["${path.root}/../scripts/build/configure-system.sh"]
+  # }
 
-  provisioner "file" {
-    destination = "/tmp/"
-    source      = "${path.root}/../assets/ubuntu2204.conf"
-  }
+  # provisioner "file" {
+  #   destination = "/tmp/"
+  #   source      = "${path.root}/../assets/ubuntu2204.conf"
+  # }
 
   // provisioner "shell" {
   //   execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
