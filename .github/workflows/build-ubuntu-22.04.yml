@@ -32,3 +32,8 @@ jobs:
 
       - name: Build Packer Image
         run: packer build images/ubuntu/templates/ubuntu-22.04.pkr.hcl
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository }}:ubuntu-22.04-latest
+          docker push ghcr.io/${{ github.repository }}:ubuntu-22.04-nightly-$(date +'%Y%m%d')
