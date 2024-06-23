@@ -143,24 +143,41 @@ variable "vm_size" {
   default = "Standard_D4s_v4"
 }
 
-source "docker" "ubuntu" {
-  image  = "ubuntu:22.04"
-  commit = true
-  privileged = true
+variable "github_org" {
+  type    = string
+  default = "${split("/", env("GITHUB_REPOSITORY"))[0]}"
 }
 
+variable "github_repo" {
+  type    = string
+  default = "${split("/", env("GITHUB_REPOSITORY"))[1]}"
+}
+
+
+source "docker" "ubuntu" {
+  image  = "ubuntu:22.04"
+  commit = false
+  privileged = true
+}
 
 build {
   sources = ["source.docker.ubuntu"]
 
-  post-processor "docker-import" {
-    repository = "upspawnops/github-actions-runner"
-    tag = "ubuntu-22.04"
+  post-processor "docker-tag" {
+    repository = "ghcr.io/${var.github_org}/${var.github_repo}"
+    tags       = ["ubuntu-22.04-latest", "ubuntu-22.04-nightly-${formatdate("YYYYMMDD", timestamp())}"]
   }
 
   provisioner "shell" {
     execute_command = "sh -c '{{ .Vars }} {{ .Path }}'"
     inline          = ["apt update", "apt install -y sudo lsb-release wget apt-utils"]
+  }
+  
+  provisioner "shell" {
+    inline = [
+      "echo 'Build completed successfully'",
+      "exit 0"
+    ]
   }
 
   provisioner "shell" {
