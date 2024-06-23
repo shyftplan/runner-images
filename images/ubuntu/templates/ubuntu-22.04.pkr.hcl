@@ -162,7 +162,7 @@ build {
     repository = "ghcr.io/${var.github_repo}"
     tags       = ["ubuntu-22.04-latest", "ubuntu-22.04-nightly-${formatdate("YYYYMMDD", timestamp())}"]
   }
-:
+
   provisioner "shell" {
     execute_command = "sh -c '{{ .Vars }} {{ .Path }}'"
     inline          = ["apt update", "apt install -y sudo lsb-release wget apt-utils"]
