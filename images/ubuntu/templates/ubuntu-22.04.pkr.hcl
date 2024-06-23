@@ -277,7 +277,7 @@ build {
       "${path.root}/../scripts/build/install-clang.sh",
       // "${path.root}/../scripts/build/install-swift.sh",
       "${path.root}/../scripts/build/install-cmake.sh",
-      // "${path.root}/../scripts/build/install-codeql-bundle.sh",
+      "${path.root}/../scripts/build/install-codeql-bundle.sh",
       "${path.root}/../scripts/build/install-container-tools.sh",
       // "${path.root}/../scripts/build/install-dotnetcore-sdk.sh", // remove this package
       // "${path.root}/../scripts/build/install-firefox.sh", // remove this package
