@@ -163,6 +163,8 @@ build {
     tags       = ["ubuntu-22.04-latest", "ubuntu-22.04-nightly-${formatdate("YYYYMMDD", timestamp())}"]
   }
 
+  post-processor "docker-push" {}
+
   provisioner "shell" {
     execute_command = "sh -c '{{ .Vars }} {{ .Path }}'"
     inline          = ["apt update", "apt install -y sudo lsb-release wget apt-utils"]
