@@ -54,15 +54,15 @@ L /run/docker.sock - - - - root docker 0770
 EOF
 
 # Reload systemd-tmpfiles to apply the new configuration
-systemd-tmpfiles --create /etc/tmpfiles.d/docker.conf
+# systemd-tmpfiles --create /etc/tmpfiles.d/docker.conf
 
-# Enable docker.service
-systemctl is-active --quiet docker.service || systemctl start docker.service
-systemctl is-enabled --quiet docker.service || systemctl enable docker.service
+# # Enable docker.service
+# systemctl is-active --quiet docker.service || systemctl start docker.service
+# systemctl is-enabled --quiet docker.service || systemctl enable docker.service
 
-# Docker daemon takes time to come up after installing
-sleep 10
-docker info
+# # Docker daemon takes time to come up after installing
+# sleep 10
+# docker info
 
 if [[ "${DOCKERHUB_PULL_IMAGES:-yes}" == "yes" ]]; then
     # If credentials are provided, attempt to log into Docker Hub
