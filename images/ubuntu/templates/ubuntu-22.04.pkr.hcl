@@ -151,7 +151,7 @@ variable "github_repo" {
 
 source "docker" "ubuntu" {
   image  = "ubuntu:22.04"
-  commit = false
+  commit = true
   privileged = true
 }
 
