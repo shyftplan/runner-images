@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   packages: write
+  id-token: write
 
   
 jobs:
@@ -19,12 +20,6 @@ jobs:
 
       - name: Set up Packer
         uses: hashicorp/setup-packer@v3
-          
-      - name: Initialize Packer
-        run: packer init images/ubuntu/templates/ubuntu-22.04.pkr.hcl
-
-      - name: Build Packer Image
-        run: packer build images/ubuntu/templates/ubuntu-22.04.pkr.hcl
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -32,10 +27,17 @@ jobs:
           role-to-assume: arn:aws:iam::894269471382:role/GithubActionRole
           role-session-name: githubactionsession
           aws-region: eu-central-1
+          role-duration-seconds: 3600  
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+          
+      - name: Initialize Packer
+        run: packer init images/ubuntu/templates/ubuntu-22.04.pkr.hcl
+
+      - name: Build Packer Image
+        run: packer build images/ubuntu/templates/ubuntu-22.04.pkr.hcl
 
       - name: Push Docker image
         run: |
