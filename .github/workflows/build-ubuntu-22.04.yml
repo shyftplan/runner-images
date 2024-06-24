@@ -19,6 +19,12 @@ jobs:
 
       - name: Set up Packer
         uses: hashicorp/setup-packer@v3
+          
+      - name: Initialize Packer
+        run: packer init images/ubuntu/templates/ubuntu-22.04.pkr.hcl
+
+      - name: Build Packer Image
+        run: packer build images/ubuntu/templates/ubuntu-22.04.pkr.hcl
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -26,12 +32,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Initialize Packer
-        run: packer init images/ubuntu/templates/ubuntu-22.04.pkr.hcl
-
-      - name: Build Packer Image
-        run: packer build images/ubuntu/templates/ubuntu-22.04.pkr.hcl
 
       - name: Push Docker image
         run: |
